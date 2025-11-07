@@ -129,7 +129,7 @@ Figure3 <- ggplot(data = result[which(result$Measures %in% measures_of_interest 
                                         result$Scenarios == 'S1'), ], 
                   aes(x = Prevalence, y = value, group = Prevalence)) +
   geom_boxplot(color = PRIME_ROSE_colors[1]) + 
-  ylab('Value Performance Measure') +
+  ylab('Performance measure') +
   xlab('Prevalence') +
   facet_grid(Measures~Models, scales = 'free_y') +
   scale_x_continuous(breaks = c(0.025, 0.05, 0.1, 0.2), limits = c(0, 0.225),
@@ -170,7 +170,7 @@ Figure2 <- ggplot(data = result[which(result$Measures %in% measures_of_interest 
                                      result$Scenarios == 'S1'),],
                aes(color = 'N = 10000'),
                fun = 'mean', geom = 'point') + #, color = PRIME_ROSE_colors[8]) +
-  ylab('Mean Performance Measure') +
+  ylab('Mean performance measure') +
   xlab('Prevalence') +
   facet_grid(Measures~Models, scales = 'free_y') +
   
@@ -191,7 +191,7 @@ FigureSM5 <- ggplot(data = result[which(result$Measures %in% measures_of_interes
                                         result$Scenarios == 'S1'), ], 
                   aes(x = Prevalence, y = value, group = Prevalence)) +
   geom_boxplot(color = PRIME_ROSE_colors[8]) + 
-  ylab('Value Performance Measure') +
+  ylab('Performance measure') +
   xlab('Prevalence') +
   facet_grid(Measures~Models, scales = 'free_y') +
   scale_x_continuous(breaks = c(0.025, 0.05, 0.1, 0.2), limits = c(0, 0.225),
@@ -228,7 +228,7 @@ FigureSM3 <- ggplot(data = result[which(result$Measures %in% measures_of_interes
                aes(color = 'N = 10000'),
                fun = 'mean', geom = 'point') +
   ylab('Mean Performance Measure') +
-  xlab('Scenarios by method') +
+  xlab('Scenarios') +
   
   scale_color_manual(name = "Sample size",
                      values = c("N = 1000" = "#001F5F", "N = 10000" = "#F37021")) +
@@ -246,8 +246,8 @@ FigureSM4 <- ggplot(data = result[which(result$Measures %in% measures_of_interes
                                         result$Sample_size == 10000), ], 
                   aes(x = Scenarios, y = value, group = Scenarios)) +
   geom_boxplot(color = PRIME_ROSE_colors[8]) +
-  ylab('Value Performance Measure') +
-  xlab('Scenarios by method') +
+  ylab('Performance measure') +
+  xlab('Scenarios') +
   facet_grid(Measures~Models, scales = 'free_y')
 FigureSM4
 ggsave(FigureSM4, file = 'FigureSM4.pdf', width = 12.5, height = 14)
@@ -261,7 +261,7 @@ FigureSM1 <- ggplot(data = result[which(result$Measures %in% measures_of_interes
   stat_summary(fun = 'mean', geom = 'line', linetype = 'dashed', linewidth = .6, show.legend = FALSE, colour = PRIME_ROSE_colors[1]) +
   stat_summary(fun = 'mean', geom = 'point', show.legend = FALSE, size = 1.5, colour = PRIME_ROSE_colors[1]) +
   
-  ylab('Mean Performance Measure') +
+  ylab('Mean performance measure') +
   xlab('Scenarios') + theme(legend.position = 'top', legend.text = element_text(size = 10), legend.title = element_text(size = 10), legend.key.size = unit(1.3, 'cm')) +
   facet_grid(Measures~Models, scales = 'free_y')
 FigureSM1
@@ -274,7 +274,7 @@ FigureSM2 <- ggplot(data = result[which(result$Measures %in% measures_of_interes
                                                   result$Sample_size == 1000), ], 
                             aes(x = Scenarios, y = value)) +
   geom_boxplot(color = PRIME_ROSE_colors[1]) + 
-  ylab('Mean Performance Measure') +
+  ylab('Mean performance measure') +
   xlab('Scenarios') + theme(legend.position = 'top', legend.text = element_text(size = 10), legend.title = element_text(size = 10), legend.key.size = unit(1.3, 'cm')) +
   facet_grid(Measures~Models, scales = 'free_y')
 FigureSM2
@@ -303,7 +303,7 @@ Figure5 <- ggplot(data = result[which(result$Measures %in% measures_of_interest 
                                                   result$Sample_size == 1000), ], 
                             aes(x = Scenarios, y = value)) +
   geom_boxplot(color = PRIME_ROSE_colors[1]) + 
-  ylab('Mean Performance Measure') +
+  ylab('Mean performance measure') +
   xlab('Scenarios') + theme(legend.position = 'top', legend.text = element_text(size = 10), legend.title = element_text(size = 10), legend.key.size = unit(1.3, 'cm')) +
   facet_grid(Measures~Models, scales = 'free_y')
 Figure5
@@ -319,7 +319,7 @@ FigureSM4 <- ggplot(data = result[which(result$Measures %in% measures_of_interes
                                                   result$Sample_size == 10000), ], 
                             aes(x = Scenarios, y = value)) +
   geom_boxplot(color = PRIME_ROSE_colors[8]) + 
-  ylab('Mean Performance Measure') +
+  ylab('Mean performance measure') +
   xlab('Scenarios') + theme(legend.position = 'top', legend.text = element_text(size = 10), legend.title = element_text(size = 10), legend.key.size = unit(1.3, 'cm')) +
   facet_grid(Measures~Models, scales = 'free_y')
 FigureSM4

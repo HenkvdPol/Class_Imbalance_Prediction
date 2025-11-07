@@ -125,7 +125,8 @@ genSim <- function(R, n, prev, betas_x, startSeed){
     ros <- rbind(ros, performanceMeasures(pred_trainup))
     rus <- rbind(rus, performanceMeasures(pred_traindown))
     smt <-  rbind(smt, performanceMeasures(pred_trainsmote))
-
+    
+    # Add the results to the list.
     olr_corrected <- rbind(olr_corrected,
                            performanceMeasures(pred_train, 
                                                mean(datatrain$y)))
@@ -164,6 +165,8 @@ genSim <- function(R, n, prev, betas_x, startSeed){
 
 startSeed0 <- 111111
 
+# Coef setting, note that in the manuscript, S4 and S5
+# are changed.
 coef<-c(0.005,0.09,-0.6,0.002,0.75,0.69, .001, -.56, -.00087)
 coef1 <- coef + c(1, 0, 0, 0,   0, 0, 0, 0, 0)
 coef2 <- coef + c(0, 0, 0, 1.5, 0, 0, 0, 0, 0)
@@ -220,5 +223,5 @@ if(!use_cluster){
   }
 }
 
-# May 2025; also save the Rdata.
+# Save the Rdata.
 save(tmp, file = paste('result-', Sys.Date(), '.Rdata', sep = ''))

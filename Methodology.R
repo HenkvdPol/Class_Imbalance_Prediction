@@ -1,10 +1,13 @@
+# Libraries
 library(ggplot2)
 library(latex2exp)
 
+# The ratio n_01 / n, here called err
 err <- seq(0.00001,0.5,by=0.0001)
 
 
-# Functions for 
+# Performance measure functions when
+# threshold is 0.5.
 precifun <- Vectorize(function(prev,err){
   out <- 0
   if( (err < prev) & (err + prev < 1) ) {
@@ -47,6 +50,8 @@ accfun <- Vectorize(function(prev,err){
   out
 },"err")
 
+# Compute the performance measures for
+# specific prevalence, and threshold is 0.5
 preci1 <- precifun(0.025,err) 
 preci2 <- precifun(0.05,err)
 preci3 <- precifun(0.1,err)
@@ -72,7 +77,8 @@ acc2 <- sapply(err, function(x)accfun(0.05,x))
 acc3 <- sapply(err, function(x)accfun(0.1,x)) 
 acc4 <- sapply(err, function(x)accfun(0.2,x)) 
 
-
+# Performance measure functions when the 
+# threshold is the prevalence.
 precifun2 <- Vectorize(function(prev,err){
   out <- 0
   if( (err < 1-prev) & (err + prev < 1) ) {
@@ -174,10 +180,10 @@ ggplot(dataplot, aes(err)) +
   geom_line(aes(y = preci1)) + 
   geom_line(aes(y = preci1b),linetype="dashed")
 
+
 ERR <- (rep(err,8))
 PREV <- factor((rep(rep(c("2.5%","5%","10%","20%"),each=length(err)),2)),
                    levels=c("2.5%","5%","10%","20%"))
-#PREV <- ((rep(rep(c(0.025,0.05,0.1,0.2),each=length(err)),2)))
 PRECI <- c(preci1,preci2,preci3,preci4,
            preci1b,preci2b,preci3b,preci4b)
 METHOD <- rep(c(1,2),each=length(err)*4)
@@ -187,6 +193,8 @@ ggplot(subset(dataplot), aes(x=ERR,y = PRECI,group = PREV,colour=PREV)) +
   facet_wrap(~METHOD,  ncol=2)
 
 
+# For the plot in the manuscript, we put everyting in one dataframe
+# called dataplot.
 ERR <- rep(err,16)
 PREV <- rep(rep(c("2.5%","5%","10%","20%"),each=length(err)),4)
 yvalues<- c(preci1,preci2,preci3,preci4,
@@ -210,7 +218,7 @@ dataplot$ERR <- as.numeric(dataplot$ERR)
 dataplot$yvalues <- as.numeric(dataplot$yvalues)
 dataplot$Prevalence <- factor(dataplot$PREV, levels = c("2.5%","5%","10%","20%"))
 
-# Now to make the plots better as a line plot, we make the point
+# Now to make the plots, we make the point
 # of discontinuation NA
 dataplot$yvalues[which(diff(yvalues) < -0.1) ] <- NA
 dataplot$yvalues[which(diff(yvalues) > 0.001)] <- NA
@@ -228,6 +236,7 @@ PRIME_ROSE_colors <- c(
 )
 PRIME_ROSE_gradient <- colorRampPalette(PRIME_ROSE_colors)
 
+# Final plot for in the manuscript.
 ggplot(dataplot, aes(x= ERR, y = yvalues, colour = Prevalence)) + 
   geom_line(size = 1.2)+
   facet_grid(PERF ~ METHOD) +
@@ -235,4 +244,5 @@ ggplot(dataplot, aes(x= ERR, y = yvalues, colour = Prevalence)) +
   theme(legend.position = "top") +
   ylab('Performance measure') + xlab(TeX("$\\frac{n_{ 0 1}}{n}$"))
 
+# Save the plot.
 ggsave(filename = 'Figure1.pdf', device = 'pdf', width = 8, height = 10)
