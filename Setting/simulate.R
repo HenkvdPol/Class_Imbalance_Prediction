@@ -175,11 +175,7 @@ genSim <- function(R, n, prev, Beta, startSeed, p, delta, sigma, id){
     Result[(i-1)*k + (1:k), 'True prevalence'] <- mean(y)
     cat(paste('\n observed mean(y) =', mean(y)))
     
-    #print(paste('mean outcome train:', mean(datatrain$y),', mean outcome test:', mean(datatest$y)))
-    #print(paste('outcome y train:', sum(datatrain$y),', outcome y test:', sum(datatest$y)))
-    
-    #print('hello2')
-    
+
     # Re-sampling
     
     # ROS dataset
@@ -187,14 +183,11 @@ genSim <- function(R, n, prev, Beta, startSeed, p, delta, sigma, id){
     trainup$y <-  as.numeric(as.character(trainup$Class))
     trainup <- trainup[,names(trainup) !="Class" ]
     
-    #print('hello3')
     
     # RUS dataset
     traindown <- downSample(x = datatrain[, -dim(datatrain)[2]], y = as.factor(datatrain$y))
     traindown$y <-  as.numeric(as.character(traindown$Class))
     traindown <- traindown[,names(traindown) !="Class" ]
-    
-    #print('hello4')
     
     # SMOTE dataset
     event_index <- which(datatrain$y == 1)
@@ -207,16 +200,11 @@ genSim <- function(R, n, prev, Beta, startSeed, p, delta, sigma, id){
       trainsmote <- rbind(trainsmote, c(new_event, 1))
     }
     
-    #print('hello5')
-    
     # Prediction
     pred_train <- fit_lr(datatrain, datatest)
     pred_trainup <- fit_lr(trainup, datatest)
     pred_traindown <- fit_lr(traindown, datatest)
     pred_trainsmote <- fit_lr(trainsmote, datatest)
-    
-    #print('hello6')
-    
     
     # Compute performance measures. The models are in order;
     # (1) Original, (2) ROS, (3) RUS, (4) SMOTE, (5) Prevalence-threshold
@@ -234,34 +222,24 @@ genSim <- function(R, n, prev, Beta, startSeed, p, delta, sigma, id){
     Result$Value[(i-1)*k + ((m*4 - m) +1):(m*4)] <- performanceMeasures(pred_trainsmote)
     Result$Calibration[(i-1)*k + ((m*4 - m) +1):(m*4)] <- compute_cal(pred_trainsmote)
     
-    p#print('hello7')
-    
     Result$Value[(i-1)*k + ((m*5 - m) +1):(m*5)] <- performanceMeasures(pred_train,
                                                                         mean(datatrain$y))
     Result$Threshold[(i-1)*k + ((m*5 - m) +1):(m*5)] <- mean(datatrain$y)
-    
-    #print('hello8')
     
     auc_threshold <- threshold_auc(pred_train$prediction, datatest$y)
     Result$Value[(i-1)*k + ((m*6 - m) +1):(m*6)] <- performanceMeasures(pred_train,
                                                                         auc_threshold)
     Result$Threshold[(i-1)*k + ((m*6 - m) +1):(m*6)] <- auc_threshold
     
-    #print('hello9')
-    
     f1_threshold <- threshold_f1(pred_train$prediction, datatest$y)
     Result$Value[(i-1)*k + ((m*7 - m) +1):(m*7)] <- performanceMeasures(pred_train,
                                                                         f1_threshold)
     Result$Threshold[(i-1)*k + ((m*7 - m) +1):(m*7)] <- f1_threshold
     
-    #print('hello10')
-    
     apr_threshold <- threshold_apr(pred_train$prediction, datatest$y)
     Result$Value[(i-1)*k + ((m*8 - m) +1):(m*8)] <- performanceMeasures(pred_train,
                                                                         apr_threshold)
     Result$Threshold[(i-1)*k + ((m*8 - m) +1):(m*8)] <- apr_threshold
-    
-    #print('hello11')
   }
   
   # We save the results for every iteration.
