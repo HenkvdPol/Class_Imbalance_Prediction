@@ -1,5 +1,5 @@
-# What we are going to do here is, plot all figures and safe them. Then we are going
-# to make one figure instead.
+# What we are going to do here is, plot all figures and safe them as rplots. Then we are going
+# to make one figure of multiple plots. This saves a lot of memory.
 
 ################################################################################
 # Load the dataframes
